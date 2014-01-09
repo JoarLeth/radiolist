@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/joarleth/spotify/track"
 	"net/http"
 	"net/url"
@@ -15,16 +14,18 @@ type searchParameters struct {
 	album  string
 }
 
+type searcherInterface interface {
+	FindClosestMatch(string, string, string) (track.Track, error)
+}
+
 func spotifySearchHandler(w http.ResponseWriter, r *http.Request) {
 	s := track.NewSearcher("se")
 	w.Write(getTrackJson(r.URL, s))
 }
 
-func getTrackJson(request_url *url.URL, track_searcher *track.Searcher) []byte {
+func getTrackJson(request_url *url.URL, track_searcher searcherInterface) []byte {
 	title, artist, album := getSearchParameters(request_url)
 	track, _ := track_searcher.FindClosestMatch(title, artist, album)
-
-	fmt.Print(track)
 
 	json_track, _ := json.Marshal(track)
 
