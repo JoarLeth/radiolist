@@ -1,6 +1,5 @@
 package main
 
-/*
 import (
 	"encoding/json"
 	"github.com/joarleth/spotify/track"
@@ -42,4 +41,3 @@ func (m mock_searcher) FindClosestMatch(title, artist, album string) (track.Trac
 
 	return track, nil
 }
-*/
